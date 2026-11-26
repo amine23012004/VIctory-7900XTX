@@ -2,10 +2,11 @@
 //! keys are small integers and values made of them; with SipHash, the
 //! standard library's default, hashing took a large share of a translation.
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::hash::{BuildHasherDefault, Hasher};
 
 pub(crate) type Map<K, V> = HashMap<K, V, BuildHasherDefault<Fx>>;
+pub(crate) type Set<K> = HashSet<K, BuildHasherDefault<Fx>>;
 
 /// FxHash's multiply-rotate step.
 #[derive(Default)]
