@@ -1004,6 +1004,15 @@ fn create() -> windows::core::Result<Host> {
             } else {
                 tracing::warn!("crash tracing asked for and not there: no device-removed data settings");
             }
+        } else if !cfg!(feature = "diagnostics")
+            && let Some(asked) = std::env::var_os("VICTORY_D3D12_DRED").filter(|v| v != "0")
+        {
+            // play.ps1 sets `light` for every build: without this line a
+            // release build looked as if it kept device-removed data (#25).
+            tracing::warn!(
+                ?asked,
+                "VICTORY_D3D12_DRED needs a diagnostics build: no device-removed data is kept"
+            );
         }
         let mut device: Option<ID3D12Device> = None;
         // Diagnostics: the software adapter, on which a shader's wild access
